@@ -37,7 +37,7 @@ def kb_sync(article: KBArticle):
     )
 
     vector = embedding.data[0].embedding
-
+    print(len(vector))
     # Store in Pinecone
     index.upsert(
         vectors=[
