@@ -28,28 +28,23 @@ def root():
 @app.post("/kb-sync")
 def kb_sync(article: KBArticle):
 
-    text = f"{article.title}\n\n{article.content}"
-
-    # Create embedding
     embedding = client.embeddings.create(
         model="text-embedding-3-small",
-        input=text
+        input=article.content
     )
 
     vector = embedding.data[0].embedding
-    print(len(vector))
-    # Store in Pinecone
+
     index.upsert(
         vectors=[
             {
                 "id": article.id,
                 "values": vector,
                 "metadata": {
-                    "title": article.title,
-                    "content": article.content
-                },
+                    "title": article.title
+                }
             }
         ]
     )
 
-    return {"status": "Article stored in Pinecone"}
+    return {"status": "synced"}
