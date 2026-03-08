@@ -1,6 +1,7 @@
 fastapi
 uvicorn
+aiohttp
 openai
 pinecone
 pydantic
-aiohttp
+beautifulsoup4
