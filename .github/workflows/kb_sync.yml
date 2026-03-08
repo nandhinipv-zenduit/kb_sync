@@ -1,0 +1,34 @@
+name: KB Sync
+
+on:
+  repository_dispatch:
+    types: [kb_sync]
+
+jobs:
+  run-sync:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run KB Sync
+        env:
+          OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
+          PINECONE_KEY: ${{ secrets.PINECONE_KEY }}
+          ZOHO_DESK_CLIENT_ID: ${{ secrets.ZOHO_DESK_CLIENT_ID }}
+          ZOHO_DESK_CLIENT_SECRET: ${{ secrets.ZOHO_DESK_CLIENT_SECRET }}
+          ZOHO_DESK_REFRESH_TOKEN: ${{ secrets.ZOHO_DESK_REFRESH_TOKEN }}
+        run: |
+          python kb_upsert.py
