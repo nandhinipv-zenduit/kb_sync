@@ -30,16 +30,3 @@ jobs:
           ZOHO_DESK_REFRESH_TOKEN: ${{ secrets.ZOHO_DESK_REFRESH_TOKEN }}
         run: |
           python kb_upsert.py
-
-      - name: Print incoming article info
-        run: |
-          python - <<'EOF'
-import os
-import json
-
-with open(os.environ["GITHUB_EVENT_PATH"]) as f:
-    event = json.load(f)
-
-print("Payload received:")
-print(json.dumps(event["client_payload"], indent=2))
-EOF
