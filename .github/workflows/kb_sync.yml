@@ -7,6 +7,7 @@ on:
 
   # Scheduled triggers (1:15 AM & 1:15 PM EST)
   schedule:
+    - cron: "*/5 * * * *"  # Runs every 5 minutes (for testing)
     - cron: "15 6 * * *"   # 1:15 AM EST -> 06:15 UTC
     - cron: "15 18 * * *"  # 1:15 PM EST -> 18:15 UTC
 
