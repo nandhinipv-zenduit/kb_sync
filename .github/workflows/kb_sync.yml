@@ -1,26 +1,32 @@
 name: KB Sync
 
 on:
-  # Manual trigger via repository_dispatch
+  # Manual trigger from GitHub UI
+  workflow_dispatch:
+
+  # Trigger via repository_dispatch with event_type 'kb_sync'
   repository_dispatch:
     types: [kb_sync]
 
   # Scheduled triggers (1:15 AM & 1:15 PM EST)
   schedule:
-    - cron: "*/5 * * * *"  # Runs every 5 minutes (for testing)
-    - cron: "15 6 * * *"   # 1:15 AM EST -> 06:15 UTC
-    - cron: "15 18 * * *"  # 1:15 PM EST -> 18:15 UTC
+    # Testing: every 5 minutes (UTC)
+    - cron: "*/5 * * * *"
+    # 1:15 AM EST -> 06:15 UTC (or 05:15 UTC if EDT)
+    - cron: "15 6 * * *"
+    # 1:15 PM EST -> 18:15 UTC (or 17:15 UTC if EDT)
+    - cron: "15 18 * * *"
 
 jobs:
   run-sync:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the repo
+      # Step 1: Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Step 2: List repo files for debug (optional)
+      # Step 2: Debug: list files (optional)
       - name: List repository files
         run: ls -R
 
