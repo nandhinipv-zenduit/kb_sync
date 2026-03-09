@@ -1,9 +1,14 @@
 name: KB Sync
 
-# Trigger via repository_dispatch with event_type 'kb_sync'
 on:
+  # Manual trigger via repository_dispatch
   repository_dispatch:
     types: [kb_sync]
+
+  # Scheduled triggers (1:15 AM & 1:15 PM EST)
+  schedule:
+    - cron: "15 6 * * *"   # 1:15 AM EST -> 06:15 UTC
+    - cron: "15 18 * * *"  # 1:15 PM EST -> 18:15 UTC
 
 jobs:
   run-sync:
@@ -14,7 +19,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Step 2: List repo files for debug (optional, can remove later)
+      # Step 2: List repo files for debug (optional)
       - name: List repository files
         run: ls -R
 
